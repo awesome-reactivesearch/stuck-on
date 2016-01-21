@@ -1,0 +1,41 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+body{
+	background: #001365;
+	padding: 36px;
+	font-family: 'Open Sans', sans-serif;
+}
+input[type="text"]:focus {
+  outline: none;
+}
+.statusInput input[type="text"] {
+  	font-size: 36px;
+    background: transparent;
+    border: none !important;
+    width: 100%;
+    color: white;
+    box-shadow: none !important;
+    height: 4rem !important;
+}
+.statusInput input[type="text"]:focus,
+.statusInput input[type="text"].focus {
+  border-bottom: solid 2px ##ecf0f1;
+}
+::-webkit-input-placeholder {
+    color: #ecf0f1  ;
+    opacity: 0.6;
+}
+:-moz-placeholder {
+    color: #ecf0f1  ;
+    opacity: 0.6;
+}
+::-moz-placeholder {
+    color: #ecf0f1  ;
+    opacity: 0.6;
+}
+:-ms-input-placeholder {
+    color: #ecf0f1  ;
+    opacity: 0.6;
+}
+.statusInput h2{
+	color: white;
+}
