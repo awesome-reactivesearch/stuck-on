@@ -36,7 +36,7 @@ var StatusInput = React.createClass({
 	render: function () {
 		return (
 			<div className="statusInput">
-				<h2>What are you doing?</h2>
+				<h2>I am Stuck on </h2>
 				<input type = "text" onKeyPress = {this._handleKeyPress} placeholder={this.props.placeholder} ref="statusInput" />
 			</div>
 		)
