@@ -1,5 +1,7 @@
+// Render a single item of the Feed
 var FeedItem = React.createClass({
 	render: function() {
+		// Get the profile picture from Twitter using the given handle
 		twitterProfilePictureURL = "https://twitter.com/" + this.props.item.twitterHandle + "/profile_image?size=original"
 		return (
 			<div className="row">
@@ -15,10 +17,11 @@ var FeedItem = React.createClass({
 	}
 })
 
-var FeedItems = React.createClass({
+// Collection of the items of the feed
+var FeedContainer = React.createClass({
 	render: function() {
-
 		var content;
+		// Loop through all the items
 		if (this.props.items.length > 0) {
 		  content = this.props.items.map(function(item) {
 		    return <FeedItem item={item} />;
@@ -36,6 +39,9 @@ var FeedItems = React.createClass({
 	}
 })
 
+// Fetch the data from Appbase and renders FeedContainer
+// Handles the infinite scrolling of the Feed
+// Listen to Realtime updates
 var StuckOnFeed = React.createClass({
 
 	getDefaultProps: function() {
@@ -65,28 +71,12 @@ var StuckOnFeed = React.createClass({
 			items: [] 
 		};
 	},
-	componentDidMount: function() {
-		window.addEventListener('scroll', this.handleScroll)
-	},
-	componentWillUnmount: function() {
-		window.removeEventListener('scroll', this.handleScroll)
-	},
-	handleScroll: function(event) {
-		var body = event.srcElement.body
-		var self = this
-		if(body.clientHeight + body.scrollTop >= body.offsetHeight) {
-			this.getHistoricalFeed()
-		}
-	},
-	addItemToTop: function(newItem){
-		var updated = this.state.items;
-		updated.unshift(newItem)
-		this.setState({items: updated});
-	},
+
+	// Fetch the old status from Appbase based on pageNumber
 	getHistoricalFeed: function(){
 		self = this
 		self.props.appbaseRef.search({
-			type: "feed",
+			type: self.props.type,
 		  	size: 10,
 		  	from: self.props.pageNumber*10,
 			body: {
@@ -104,6 +94,33 @@ var StuckOnFeed = React.createClass({
 			  console.log("search error: ", err);
 		})
 	},
+
+	// Add the items to the feed fetched in getHistorialFeed
+	addItemsToFeed: function(newItems){
+		var updated = this.state.items;
+		$.map(newItems, function(object){
+			updated.push(object._source)
+		})
+		this.setState({items: updated});
+	},	
+
+	// For the Infinite scrolling
+	componentDidMount: function() {
+		window.addEventListener('scroll', this.handleScroll)
+	},
+	componentWillUnmount: function() {
+		window.removeEventListener('scroll', this.handleScroll)
+	},
+
+	// Fired when client scrolls the page
+	handleScroll: function(event) {
+		var body = event.srcElement.body
+		// When the client reaches at the bottom of the page, get next page		
+		if(body.clientHeight + body.scrollTop >= body.offsetHeight) {
+			this.getHistoricalFeed()
+		}
+	},
+	// Listen to realtime updates in Appbase and then add it to the top of the feed
 	subscribeToUpdates: function(){
 		self.props.appbaseRef.searchStream({
 		  type: "feed",
@@ -118,16 +135,17 @@ var StuckOnFeed = React.createClass({
 		  console.log("streaming error: ", err);
 		})
 	},
-	addItemsToFeed: function(newItems){
+
+	// Add the realtime status to the top
+	addItemToTop: function(newItem){
 		var updated = this.state.items;
-		$.map(newItems, function(object){
-			updated.push(object._source)
-		})
+		updated.unshift(newItem)
 		this.setState({items: updated});
 	},
+
 	render: function() {
 		return (
-			<FeedItems items={this.state.items}/>
+			<FeedContainer items={this.state.items}/>
 		);
 	}
 
