@@ -7,7 +7,9 @@ var TwitterInput = React.createClass({
 	_handleKeyPress: function(e) {
 		// Call the onSubmit event when enter is pressed
 		if (e.key === 'Enter') {
-			this.props.onSubmit(this.refs.nameInput.getDOMNode().value);
+			if(this.refs.nameInput.getDOMNode().value){
+				this.props.onSubmit(this.refs.nameInput.getDOMNode().value);
+			}
 		}
 	},
 	render: function () {
@@ -29,8 +31,10 @@ var StatusInput = React.createClass({
 	_handleKeyPress: function(e) {
 		// Call the onSubmit event when enter is pressed
 		if (e.key === 'Enter') {
-			this.props.onSubmit(this.refs.statusInput.getDOMNode().value);
-			this.refs.statusInput.getDOMNode().value = "";
+			if(this.refs.nameInput.getDOMNode().value){
+				this.props.onSubmit(this.refs.statusInput.getDOMNode().value);
+				this.refs.statusInput.getDOMNode().value = "";
+			}
 		}
 	},
 	render: function () {
