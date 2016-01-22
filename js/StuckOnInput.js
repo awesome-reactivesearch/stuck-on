@@ -113,21 +113,21 @@ var StuckOnInput = React.createClass({
 		});
 	},
 
-render: function() {
-	var twitterHandle = ""
-	
-	// If twitterHandle is already set in localStorage, then show update status page directly
-	if(this.state.twitterHandle){
-		return (
-			<StatusInput onSubmit={this.addInputToAppbase} placeholder={this.state.status}/>
-		);					
+	render: function() {
+		var twitterHandle = ""
+		
+		// If twitterHandle is already set in localStorage, then show update status page directly
+		if(this.state.twitterHandle){
+			return (
+				<StatusInput onSubmit={this.addInputToAppbase} placeholder={this.state.status}/>
+			);					
+		}
+		else{
+			return (
+				<TwitterInput onSubmit={this.setTwitterHandle} />
+			);
+		}
 	}
-	else{
-		return (
-			<TwitterInput onSubmit={this.setTwitterHandle} />
-		);
-	}
-}
 
   });
 
