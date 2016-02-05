@@ -1,0 +1,21 @@
+{
+  "name": "stuck-on",
+  "version": "0.0.1",
+  "homepage": "https://github.com/yashshah/stuck-on",
+  "authors": [
+    "Yash Shah <mail@yashshah.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "appbase-js": "~0.10.4",
+    "react": "~0.14.7"
+  }
+}
