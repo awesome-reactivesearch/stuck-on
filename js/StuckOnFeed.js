@@ -84,7 +84,7 @@ var StuckOnFeed = React.createClass({
                 }
             }
         }).on('data', function(res) {
-            console.log(self.pageNumber = self.pageNumber + 1)
+            self.pageNumber = self.pageNumber + 1
             self.addItemsToFeed(res.hits.hits)
         }).on('error', function(err) {
             console.log("search error: ", err);
@@ -93,7 +93,6 @@ var StuckOnFeed = React.createClass({
 
     // Add the items to the feed fetched in getHistorialFeed
     addItemsToFeed: function(newItems) {
-        console.log(newItems)
         var updated = this.state.items;
         $.map(newItems, function(object) {
             updated.push(object._source)
