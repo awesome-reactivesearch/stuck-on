@@ -5,11 +5,18 @@ var StuckOnFeed = React.createClass({
         // Get the Appbase credentials from the config file
         // Note that this will be executed as async process
         $.getJSON("./config.json", function(json) {
-            console.log(json.appbase.appname)
             // Create Appbase reference object
-            self.appbaseRef = new Appbase({url: 'https://scalr.api.appbase.io', appname: json.appbase.appname, username: json.appbase.username, password: json.appbase.password});
+            self.appbaseRef = new Appbase({url: 'https://scalr.api.appbase.io', appname: json.appbase.appname, username: json.appbase.username, password: json.appbase.password})
             self.type = json.appbase.type
             self.pageNumber = 0
+            self.feedQuery = {
+                query: {
+                    match_all: {}
+                },
+                sort: {
+                    timestamp: "desc"
+                }
+            }
             self.getHistoricalFeed()
             self.subscribeToUpdates()
         })
@@ -23,14 +30,7 @@ var StuckOnFeed = React.createClass({
             type: self.type,
             size: 10,
             from: self.pageNumber*10,
-            body: {
-                query: {
-                    match_all: {}
-                },
-                sort: {
-                    timestamp: "desc"
-                }
-            }
+            body: self.feedQuery
         }).on('data', function(res) {
             self.pageNumber = self.pageNumber + 1
             self.addItemsToFeed(res.hits.hits)
@@ -62,13 +62,10 @@ var StuckOnFeed = React.createClass({
         }
     },
     subscribeToUpdates: function() {
+        self = this
         self.appbaseRef.searchStream({
             type: self.type,
-            body: {
-                query: {
-                    match_all: {}
-                }
-            }
+            body: self.feedQuery
         }).on('data', function(res) {
             self.addItemToTop(res._source)
         }).on('error', function(err) {
