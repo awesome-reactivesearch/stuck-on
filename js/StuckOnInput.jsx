@@ -2,7 +2,7 @@
 var TwitterInput = React.createClass({
     componentDidMount: function() {
         // Focus on the input button when the page loads
-        this.refs.nameInput.focus();
+        this.refs.nameInput.focus()
     },
     _handleKeyPress: function(e) {
         // Call the onSubmit event when enter is pressed
@@ -40,7 +40,7 @@ var StatusInput = React.createClass({
     render: function() {
         return (
             <div className="statusInput">
-                <h2>I am Stuck on </h2>
+                <h2>I am stuck on </h2>
                 <input type = "text" onKeyPress = {this._handleKeyPress} placeholder={this.props.placeholder} ref="statusInput" />
             </div>
         )
@@ -61,7 +61,7 @@ var StuckOnInput = React.createClass({
             // Create Appbase reference object
             self.appbaseRef = new Appbase({
                 url: 'https://scalr.api.appbase.io',
-                appname: json.appbase.app_name,
+                appname: json.appbase.appname,
                 username: json.appbase.username,
                 password: json.appbase.password
             });
