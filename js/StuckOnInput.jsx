@@ -7,8 +7,12 @@ var TwitterInput = React.createClass({
     _handleKeyPress: function(e) {
         // Call the onSubmit event when enter is pressed
         if (e.key === 'Enter') {
-            if (this.refs.nameInput.value) {
-                this.props.onSubmit(this.refs.nameInput.value);
+            var re = new RegExp(/@([\w]+)/)
+            if(re.test(this.refs.nameInput.value)){
+                this.props.onSubmit(this.refs.nameInput.value)
+            }
+            else{
+                alert("Please enter valid twitter handle starting with @")
             }
         }
     },
